@@ -66,14 +66,14 @@ def run(args):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser(description="Analyse images for optical flow")
-    parser.add_argument("--image_list_file")
-    parser.add_argument("--image_dir")
-    parser.add_argument("--output_dir")
+    parser.add_argument("--image_list_file", required=True)
+    parser.add_argument("--image_dir", required=True)
+    parser.add_argument("--output_dir", required=True)
 
     args = parser.parse_args()
 
     run(args)
 
     # to test
-    # python main.py --image_dir=./images/test_images/ --output_dir=./output/test_images/ --image_list_file=./img_list/test_img_list.txt
+    # python main.py --image_dir=./images/lud_images/ --image_list_file=./img_list/lud_images_list.txt --output_dir=./output/lud_images/
 
