@@ -1,0 +1,6 @@
+tensorflow==1.8
+opencv
+scipy
+matplotlib
+tensorflow-gpu=1.8
+imageio

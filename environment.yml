@@ -1,0 +1,12 @@
+name: SelFlow
+channels:
+  - defaults
+dependencies:
+  - tensorflow==1.8
+  - opencv
+  - scipy
+  - matplotlib
+  - tensorflow-gpu=1.8
+  - imageio
+prefix: /data/anaconda/envs/SelFlow
+
