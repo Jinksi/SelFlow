@@ -65,7 +65,7 @@ def run(args):
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(description="Process some integers.")
+    parser = argparse.ArgumentParser(description="Analyse images for optical flow")
     parser.add_argument("--image_list_file")
     parser.add_argument("--image_dir")
     parser.add_argument("--output_dir")
