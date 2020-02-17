@@ -41,6 +41,7 @@ def run(args):
 
     with open(output_file, "w+") as file:
         file.write(file_contents)
+        print(f"Saved to {output_file}")
 
 
 if __name__ == "__main__":
