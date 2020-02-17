@@ -81,8 +81,8 @@ class SelFlowModel(object):
             os.makedirs(('/'.join([self.summary_dir, 'test'])))             
     
                     
-    def test(self, restore_model, save_dir, is_normalize_img=True):
-        dataset = BasicDataset(data_list_file=self.dataset_config['data_list_file'], img_dir=self.dataset_config['img_dir'], is_normalize_img=is_normalize_img)
+    def test(self, restore_model, save_dir, img_dir, data_list_file, is_normalize_img=True):
+        dataset = BasicDataset(data_list_file=data_list_file, img_dir=img_dir, is_normalize_img=is_normalize_img)
         save_name_list = dataset.data_list[:, -1]
         iterator = dataset.create_one_shot_iterator(dataset.data_list, num_parallel_calls=self.num_input_threads)
         batch_img0, batch_img1, batch_img2 = iterator.get_next()
