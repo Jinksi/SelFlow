@@ -9,11 +9,17 @@ def is_image_file(filename):
 
 def run(args):
     image_dir = args.image_dir
+    images = args.images
     output_dir = args.output_dir
     multi_frame = args.multi_frame
 
-    files = os.listdir(image_dir)
-    print(f"Found {len(files)} images in {image_dir}")
+    if images:
+        files = images.split(",")
+        print(f"Using {len(files)} images in {image_dir}")
+    else:
+        files = os.listdir(image_dir)
+        print(f"Found {len(files)} images in {image_dir}")
+
     image_dirname = os.path.dirname(image_dir).split("/")[-1]
     print(image_dirname)
     image_files = [file for file in files if is_image_file(file)]
@@ -29,9 +35,10 @@ def run(args):
         start_index = index - index_margin
         end_index = index + index_margin + 1
         group = image_files[start_index:end_index]
+        filename = os.path.splitext(os.path.basename(file))[0]
         # keep group if all frames exist
         if len(group) == multi_frame:
-            image_groups[file] = group
+            image_groups[filename] = group
 
     print(f"{len(image_groups)} image groups of length {multi_frame}")
 
@@ -49,6 +56,7 @@ if __name__ == "__main__":
         description="Create an images_list.txt from contents of image directory"
     )
     parser.add_argument("--image_dir", default="./images/lud_images/")
+    parser.add_argument("--images")  # list to str e.g. "file1.png,file2.png,..."
     parser.add_argument("--output_dir", default="./img_list/")
     parser.add_argument("--multi_frame", type=int, default=3)
 

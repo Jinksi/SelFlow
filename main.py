@@ -18,7 +18,9 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 
 def run(args):
     print("args", args)
-    config = config_dict("./config/config.ini")
+    config_path = os.path.join(os.getcwd(), "config/config.ini")
+    print("config path", config_path)
+    config = config_dict(config_path)
     run_config = config["run"]
     dataset_config = config["dataset"]
     self_supervision_config = config["self_supervision"]
