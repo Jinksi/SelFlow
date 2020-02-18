@@ -104,7 +104,14 @@ class SelFlowModel(object):
         #     os.makedirs(("/".join([self.summary_dir, "test"])))
 
     def test(
-        self, restore_model, save_dir, img_dir, data_list_file, is_normalize_img=True
+        self,
+        restore_model,
+        save_dir,
+        img_dir,
+        data_list_file,
+        is_normalize_img=True,
+        save_flo_files=False,
+        keep_only_fw=True,
     ):
         dataset = BasicDataset(
             data_list_file=data_list_file,
@@ -164,21 +171,31 @@ class SelFlowModel(object):
                 [flow_fw["full_res"], flow_bw["full_res"], flow_fw_color, flow_bw_color]
             )
             # write images
-            os.makedirs(os.path.join(save_dir, "fw"), exist_ok=True)
-            os.makedirs(os.path.join(save_dir, "bw"), exist_ok=True)
-            os.makedirs(os.path.join(save_dir, "flo_fw"), exist_ok=True)
-            os.makedirs(os.path.join(save_dir, "flo_bw"), exist_ok=True)
-            imageio.imwrite(
-                f"{save_dir}/fw/{save_name_list[i]}_flow_fw.png", np_flow_fw_color[0]
-            )
-            imageio.imwrite(
-                f"{save_dir}/bw/{save_name_list[i]}_flow_bw.png", np_flow_bw_color[0]
-            )
-            write_flo(
-                f"{save_dir}/flo_fw/{save_name_list[i]}_flow_fw.flo", np_flow_fw[0]
-            )
-            write_flo(
-                f"{save_dir}/flo_bw/{save_name_list[i]}_flow_bw.flo", np_flow_fw[0]
-            )
+            if keep_only_fw:
+                imageio.imwrite(
+                    f"{save_dir}/{save_name_list[i]}_flow_fw.png", np_flow_fw_color[0]
+                )
+            else:
+                os.makedirs(os.path.join(save_dir, "fw"), exist_ok=True)
+                os.makedirs(os.path.join(save_dir, "bw"), exist_ok=True)
+                imageio.imwrite(
+                    f"{save_dir}/fw/{save_name_list[i]}_flow_fw.png",
+                    np_flow_fw_color[0],
+                )
+                imageio.imwrite(
+                    f"{save_dir}/bw/{save_name_list[i]}_flow_bw.png",
+                    np_flow_bw_color[0],
+                )
+                if save_flo_files:
+                    os.makedirs(os.path.join(save_dir, "flo_fw"), exist_ok=True)
+                    os.makedirs(os.path.join(save_dir, "flo_bw"), exist_ok=True)
+                    write_flo(
+                        f"{save_dir}/flo_fw/{save_name_list[i]}_flow_fw.flo",
+                        np_flow_fw[0],
+                    )
+                    write_flo(
+                        f"{save_dir}/flo_bw/{save_name_list[i]}_flow_bw.flo",
+                        np_flow_fw[0],
+                    )
 
             print(f"Finished {i + 1}/{dataset.data_num} – {save_dir}")
