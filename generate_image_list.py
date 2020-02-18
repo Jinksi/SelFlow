@@ -1,6 +1,15 @@
 import os
 import argparse
 import math
+import json
+import time
+import sys
+
+
+def printJson(data):
+    print(json.dumps(data))
+    sys.stdout.flush()
+    time.sleep(0.1)
 
 
 def is_image_file(filename):
@@ -51,7 +60,8 @@ def run(args):
 
     with open(output_file, "w+") as file:
         file.write(file_contents)
-        print(f"Saved to {output_file}")
+        printJson([])
+        printJson(["Saved to", output_file])
 
 
 if __name__ == "__main__":
