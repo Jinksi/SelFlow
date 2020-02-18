@@ -163,16 +163,22 @@ class SelFlowModel(object):
             np_flow_fw, np_flow_bw, np_flow_fw_color, np_flow_bw_color = sess.run(
                 [flow_fw["full_res"], flow_bw["full_res"], flow_fw_color, flow_bw_color]
             )
+            # write images
+            os.makedirs(os.path.join(save_dir, "fw"), exist_ok=True)
+            os.makedirs(os.path.join(save_dir, "bw"), exist_ok=True)
+            os.makedirs(os.path.join(save_dir, "flo_fw"), exist_ok=True)
+            os.makedirs(os.path.join(save_dir, "flo_bw"), exist_ok=True)
             imageio.imwrite(
-                "%s/%s_flow_fw.png" % (save_dir, save_name_list[i]), np_flow_fw_color[0]
+                f"{save_dir}/fw/{save_name_list[i]}_flow_fw.png", np_flow_fw_color[0]
             )
             imageio.imwrite(
-                "%s/%s_flow_bw.png" % (save_dir, save_name_list[i]), np_flow_bw_color[0]
+                f"{save_dir}/bw/{save_name_list[i]}_flow_bw.png", np_flow_bw_color[0]
             )
             write_flo(
-                "%s/%s_flow_fw.flo" % (save_dir, save_name_list[i]), np_flow_fw[0]
+                f"{save_dir}/flo_fw/{save_name_list[i]}_flow_fw.flo", np_flow_fw[0]
             )
             write_flo(
-                "%s/%s_flow_bw.flo" % (save_dir, save_name_list[i]), np_flow_bw[0]
+                f"{save_dir}/flo_bw/{save_name_list[i]}_flow_bw.flo", np_flow_fw[0]
             )
-            print("Finished %d/%d" % (i + 1, dataset.data_num))
+
+            print(f"Finished {i + 1}/{dataset.data_num} – {save_dir}")
