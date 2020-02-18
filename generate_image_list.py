@@ -13,6 +13,9 @@ def run(args):
     output_dir = args.output_dir
     multi_frame = args.multi_frame
 
+    if output_dir:
+        os.makedirs(output_dir, exist_ok=True)
+
     if images:
         files = images.split(",")
         print(f"Using {len(files)} images in {image_dir}")
@@ -55,9 +58,9 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser(
         description="Create an images_list.txt from contents of image directory"
     )
-    parser.add_argument("--image_dir", default="./images/lud_images/")
+    parser.add_argument("--image_dir", default="./images/lud_images/", required=True)
     parser.add_argument("--images")  # list to str e.g. "file1.png,file2.png,..."
-    parser.add_argument("--output_dir", default="./img_list/")
+    parser.add_argument("--output_dir", default="./img_list/", required=True)
     parser.add_argument("--multi_frame", type=int, default=3)
 
     args = parser.parse_args()
