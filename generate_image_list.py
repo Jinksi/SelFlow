@@ -16,11 +16,7 @@ def is_image_file(filename):
     return filename.lower().endswith((".png", ".jpg", ".jpeg"))
 
 
-def run(args):
-    image_dir = args.image_dir
-    images = args.images
-    output_dir = args.output_dir
-    multi_frame = args.multi_frame
+def generate_image_list(image_dir, output_dir, multi_frame, images=None, filename=None):
 
     if output_dir:
         os.makedirs(output_dir, exist_ok=True)
@@ -37,7 +33,10 @@ def run(args):
     image_files = [file for file in files if is_image_file(file)]
     image_files = sorted(image_files)
 
-    output_file = os.path.join(output_dir, f"{image_dirname}_list.txt")
+    if filename:
+        output_file = filename
+    else:
+        output_file = os.path.join(output_dir, f"{image_dirname}_list.txt")
 
     image_groups = {}
     # step through files
@@ -69,10 +68,11 @@ if __name__ == "__main__":
         description="Create an images_list.txt from contents of image directory"
     )
     parser.add_argument("--image_dir", default="./images/lud_images/", required=True)
-    parser.add_argument("--images")  # list to str e.g. "file1.png,file2.png,..."
     parser.add_argument("--output_dir", default="./img_list/", required=True)
     parser.add_argument("--multi_frame", type=int, default=3)
+    parser.add_argument("--images")  # list to str e.g. "file1.png,file2.png,..."
+    parser.add_argument("--filename")  # custom path to file.txt
 
     args = parser.parse_args()
 
-    run(args)
+    generate_image_list(args.image_dir, args.output_dir, args.multi_frame, args.images)

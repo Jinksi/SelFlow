@@ -13,10 +13,7 @@ def printJson(data):
     time.sleep(0.1)
 
 
-def run(args):
-    input = args.input
-    fps = args.fps
-    output_dir = args.output_dir
+def extract_video_frames(input, output_dir, fps):
     input_filename = os.path.splitext(os.path.basename(input))[0]
 
     if output_dir:
@@ -33,25 +30,24 @@ def run(args):
             "-qscale:v",
             "2",
             os.path.join(output_dir, f"{input_filename}_{fps}fps_%06d.jpg"),
-        ],
-        capture_output=False,
+        ]
     )
+    print("==================")
     print(
         "Video frames extracted to",
         os.path.join(output_dir, f"{input_filename}_{fps}fps_%06d.jpg"),
     )
+    print("==================")
 
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser(
-        description="Create an images_list.txt from contents of image directory"
-    )
+    parser = argparse.ArgumentParser(description="Extract video frames from a video")
     parser.add_argument("--input", default="./videos/video_test.mov/", required=True)
     parser.add_argument("--output_dir", default="./output/video_frames/", required=True)
     parser.add_argument("--fps", default=25, type=int)
 
     args = parser.parse_args()
 
-    run(args)
+    extract_video_frames(args.input, args.output_dir, args.fps)
 
     # python extract_video_frames.py --input=videos/video_test.mov --output_dir=output/video_frames --fps=25
