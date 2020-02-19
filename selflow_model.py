@@ -173,7 +173,7 @@ class SelFlowModel(object):
             # write images
             if keep_only_fw:
                 imageio.imwrite(
-                    f"{save_dir}/{save_name_list[i]}_flow_fw.png", np_flow_fw_color[0]
+                    f"{save_dir}/{save_name_list[i]}_of.jpg", np_flow_fw_color[0]
                 )
             else:
                 os.makedirs(os.path.join(save_dir, "fw"), exist_ok=True)
