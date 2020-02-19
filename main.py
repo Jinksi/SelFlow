@@ -16,8 +16,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 # os.system('rm tmp')
 
 
-def run(args):
-    print("args", args)
+def run_selfow(image_dir, image_list_file, output_dir):
     config_path = os.path.join(os.getcwd(), "config/config.ini")
     print("config path", config_path)
     config = config_dict(config_path)
@@ -42,7 +41,7 @@ def run(args):
         log_device_placement=run_config["log_device_placement"],
         regularizer_scale=run_config["regularizer_scale"],
         cpu_device=run_config["cpu_device"],
-        save_dir=args.output_dir,
+        save_dir=output_dir,
         checkpoint_dir=run_config["checkpoint_dir"],
         model_name=run_config["model_name"],
         sample_dir=run_config["sample_dir"],
@@ -57,9 +56,9 @@ def run(args):
     if run_config["mode"] == "test":
         model.test(
             restore_model=config["test"]["restore_model"],
-            save_dir=args.output_dir,
-            img_dir=args.image_dir,
-            data_list_file=args.image_list_file,
+            save_dir=output_dir,
+            img_dir=image_dir,
+            data_list_file=image_list_file,
             is_normalize_img=dataset_config["is_normalize_img"],
         )
     else:
@@ -74,7 +73,7 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    run(args)
+    run_selfow(args.image_dir, args.image_list_file, args.output_dir)
 
     # to test
     # python main.py --image_dir=./images/lud_images/ --image_list_file=./img_list/lud_images_list.txt --output_dir=./output/lud_images/
