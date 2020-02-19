@@ -198,4 +198,4 @@ class SelFlowModel(object):
                         np_flow_fw[0],
                     )
 
-            print(f"Finished {i + 1}/{dataset.data_num} – {save_dir}")
+            print(f"Finished {i + 1}/{dataset.data_num} {save_dir}")
