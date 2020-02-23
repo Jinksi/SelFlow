@@ -112,7 +112,10 @@ class SelFlowModel(object):
         is_normalize_img=True,
         save_flo_files=False,
         keep_only_fw=True,
+        use_symmetry=False,
     ):
+        if use_symmetry:
+            print("Using symmetry")
         dataset = BasicDataset(
             data_list_file=data_list_file,
             img_dir=img_dir,
@@ -155,8 +158,12 @@ class SelFlowModel(object):
         flow_fw["full_res"] = flow_resize(flow_fw["full_res"], [h, w], method=1)
         flow_bw["full_res"] = flow_resize(flow_bw["full_res"], [h, w], method=1)
 
-        flow_fw_color = flow_to_color(flow_fw["full_res"], mask=None, max_flow=256)
-        flow_bw_color = flow_to_color(flow_bw["full_res"], mask=None, max_flow=256)
+        flow_fw_color = flow_to_color(
+            flow_fw["full_res"], mask=None, max_flow=256, use_symmetry=use_symmetry
+        )
+        flow_bw_color = flow_to_color(
+            flow_bw["full_res"], mask=None, max_flow=256, use_symmetry=use_symmetry
+        )
 
         restore_vars = tf.get_collection(tf.GraphKeys.GLOBAL_VARIABLES)
         saver = tf.train.Saver(var_list=restore_vars)

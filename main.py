@@ -16,7 +16,7 @@ os.environ["CUDA_VISIBLE_DEVICES"] = "0"
 # os.system('rm tmp')
 
 
-def run_selfow(image_dir, image_list_file, output_dir):
+def run_selfow(image_dir, image_list_file, output_dir, use_symmetry):
     config_path = os.path.join(os.getcwd(), "config/config.ini")
     print("config path", config_path)
     config = config_dict(config_path)
@@ -60,6 +60,7 @@ def run_selfow(image_dir, image_list_file, output_dir):
             img_dir=image_dir,
             data_list_file=image_list_file,
             is_normalize_img=dataset_config["is_normalize_img"],
+            use_symmetry=use_symmetry,
         )
     else:
         raise ValueError("Invalid mode. Mode should be one of {test}")
@@ -70,11 +71,12 @@ if __name__ == "__main__":
     parser.add_argument("--image_list_file", required=True)
     parser.add_argument("--image_dir", required=True)
     parser.add_argument("--output_dir", required=True)
+    parser.add_argument("--use_symmetry", action="store_true")
 
     args = parser.parse_args()
 
-    run_selfow(args.image_dir, args.image_list_file, args.output_dir)
+    run_selfow(args.image_dir, args.image_list_file, args.output_dir, args.use_symmetry)
 
     # to test
-    # python main.py --image_dir=./images/lud_images/ --image_list_file=./img_list/lud_images_list.txt --output_dir=./output/lud_images/
+    # python main.py --image_dir=./images/lud_images/ --image_list_file=./img_list/lud_images_list.txt --output_dir=./output/lud_images/ --use_symmetry
 
